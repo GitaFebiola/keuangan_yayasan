@@ -55,12 +55,20 @@ class KeuanganController extends Controller
             ->groupBy('dim_pengeluaran_id')
             ->get();
 
+        // Pie - Aktivitas per Rekening
+        $rekeningStat = FactKeuangan::with('dimRekening')
+            ->whereNotNull('dim_rekening_id')
+            ->selectRaw('dim_rekening_id, SUM(jumlah) as total')
+            ->groupBy('dim_rekening_id')
+            ->get();
+
         return view('dashboard.index', compact(
             'pemasukanByUnit',
             'pengeluaranByBulan',
             'pemasukanPerKategori',
             'selisih',
-            'pengeluaranPerKategori'
+            'pengeluaranPerKategori',
+            'rekeningStat'
         ));
     }
 

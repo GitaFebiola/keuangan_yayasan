@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-     <h3 class="mb-4 text-success"><i class="fas fa-chart-line"></i> Dashboard Keuangan</h3>
+    <h3 class="mb-4 text-success fw-semibold"><i class="fas fa-chart-line me-2"></i>Ringkasan Keuangan Yayasan</h3>
 
     <div class="row">
         <!-- Grafik 1: Pemasukan per Unit -->
@@ -37,24 +37,35 @@
             </div>
         </div>
 
-        <!-- Grafik 4: Selisih Pemasukan - Pengeluaran -->
+        <!-- Grafik 6: Total Aktivitas per Rekening -->
         <div class="col-md-6 mb-4">
-            <div class="card h-100">
+            <div class="card">
                 <div class="card-body">
-                    <h5 class="text-center">Selisih Pemasukan - Pengeluaran</h5>
-                    <canvas id="areaChart" style="max-height: 250px; width: 100%;"></canvas>
+                    <h5 class="text-center">Total Aktivitas per Rekening</h5>
+                    <canvas id="rekeningChart" style="max-height: 250px; width: 100%;"></canvas>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Grafik 4 & 5: Ukuran Panjang Full -->
     <div class="row">
+        <!-- Grafik 4: Selisih Pemasukan - Pengeluaran -->
+        <div class="col-12 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="text-center">Selisih Pemasukan - Pengeluaran</h5>
+                    <canvas id="areaChart" style="max-height: 300px; width: 100%;"></canvas>
+                </div>
+            </div>
+        </div>
+
         <!-- Grafik 5: Pengeluaran per Kategori -->
-        <div class="col-md-12 mb-4">
+        <div class="col-12 mb-4">
             <div class="card">
                 <div class="card-body">
                     <h5 class="text-center">Pengeluaran per Kategori</h5>
-                    <canvas id="kategoriPengeluaranChart" style="max-height: 250px; width: 100%;"></canvas>
+                    <canvas id="kategoriPengeluaranChart" style="max-height: 300px; width: 100%;"></canvas>
                 </div>
             </div>
         </div>
@@ -64,7 +75,6 @@
 <!-- Chart.js CDN -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    // Grafik 1: Pie - Pemasukan per Unit
     new Chart(document.getElementById('unitChart'), {
         type: 'pie',
         data: {
@@ -76,7 +86,6 @@
         }
     });
 
-    // Grafik 2: Bar - Pengeluaran per Bulan
     new Chart(document.getElementById('bulanChart'), {
         type: 'bar',
         data: {
@@ -93,7 +102,6 @@
         }
     });
 
-    // Grafik 3: Doughnut - Pemasukan per Kategori
     new Chart(document.getElementById('kategoriPemasukanChart'), {
         type: 'doughnut',
         data: {
@@ -105,7 +113,6 @@
         }
     });
 
-    // Grafik 4: Area - Selisih Pemasukan - Pengeluaran
     new Chart(document.getElementById('areaChart'), {
         type: 'line',
         data: {
@@ -123,7 +130,6 @@
         }
     });
 
-    // Grafik 5: Horizontal Bar - Pengeluaran per Kategori
     new Chart(document.getElementById('kategoriPengeluaranChart'), {
         type: 'bar',
         data: {
@@ -138,6 +144,16 @@
             indexAxis: 'y'
         }
     });
-</script>
 
+    new Chart(document.getElementById('rekeningChart'), {
+        type: 'pie',
+        data: {
+            labels: {!! json_encode($rekeningStat->pluck('dimRekening.bank')) !!},
+            datasets: [{
+                data: {!! json_encode($rekeningStat->pluck('total')) !!},
+                backgroundColor: ['#a78bfa', '#34d399', '#f472b6']
+            }]
+        }
+    });
+</script>
 @endsection

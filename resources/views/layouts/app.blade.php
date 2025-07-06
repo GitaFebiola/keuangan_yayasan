@@ -101,7 +101,7 @@
     {{-- Sidebar --}}
     <div class="sidebar">
         <div class="brand">
-    <i class="fas fa-school me-2"></i>Yayasan Keuangan
+    <i class="fas fa-school me-2"></i>Keuangan Yayasan
 </div>
 
         <a href="{{ route('dashboard') }}" class="{{ request()->is('dashboard') ? 'active' : '' }}">
